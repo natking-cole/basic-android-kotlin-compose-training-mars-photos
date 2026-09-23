@@ -76,6 +76,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 

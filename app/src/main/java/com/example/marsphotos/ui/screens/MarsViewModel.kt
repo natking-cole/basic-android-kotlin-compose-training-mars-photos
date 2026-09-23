@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 sealed interface MarsUiState {
-    data class Success(val photos: String) : MarsUiState
+    data class Success(val photos: MarsPhoto) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
@@ -60,8 +60,8 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
         viewModelScope.launch{
             try{
 
-                val listResult = marsPhotosRepository.getMarsPhotos()
-                marsUiState = MarsUiState.Success("Success: ${listResult.size} Mars Photos Retrieved")
+                val result = marsPhotosRepository.getMarsPhotos()[0]
+                marsUiState = MarsUiState.Success(marsPhotosRepository.getMarsPhotos()[0])
             }
             catch(e: IOException){
                 marsUiState = MarsUiState.Error

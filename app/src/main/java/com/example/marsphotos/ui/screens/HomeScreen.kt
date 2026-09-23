@@ -34,7 +34,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.marsphotos.network.MarsPhoto
 
 @Composable
 fun HomeScreen(
@@ -43,9 +48,8 @@ fun HomeScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     when (marsUiState){
-        is MarsUiState.Success -> ResultScreen(
-            marsUiState.photos, modifier.padding(top = contentPadding.calculateTopPadding())
-        )
+        is MarsUiState.Success -> MarsPhotoCard(marsUiState.photos, modifier)
+
         is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is MarsUiState.Error -> ErrorScreen(modifier = modifier.fillMaxSize())
     }
@@ -84,7 +88,17 @@ fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
         Text(text = photos)
     }
 }
-
+@Composable
+fun MarsPhotoCard(photo: MarsPhoto, modifier: Modifier = Modifier){
+    AsyncImage(
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data(photo.imgSrc)
+            .crossfade(true)
+            .build(),
+        contentDescription = stringResource(R.string.mars_photo),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
 @Preview(showBackground = true)
 @Composable
 fun ResultScreenPreview() {
